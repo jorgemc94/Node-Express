@@ -1,5 +1,8 @@
+import { Identifiable } from "../utils/services";
 
-export interface Booking {
+export type statusType = "In progress" | "Check In" | "Check Out";
+
+export interface Booking extends Identifiable {
     fullName: string,
     id: number,
     bookDate: string,
@@ -7,5 +10,5 @@ export interface Booking {
     checkOut: string,
     specialRequest: string,
     roomId: number,
-    status: "In progress" | "Check In" | "Check Out"
-}
+    status: statusType,
+};

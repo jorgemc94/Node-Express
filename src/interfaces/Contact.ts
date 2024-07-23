@@ -1,3 +1,5 @@
+export type archivedType = "false" | "true";
+
 export interface Contact {
     date: string,
     client: {
@@ -9,5 +11,5 @@ export interface Contact {
     id: number,
     subject: string,
     comment: string,
-    archived: "false" | "true"
+    archived: archivedType,
 }

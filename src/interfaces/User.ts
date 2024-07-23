@@ -1,3 +1,7 @@
+
+export type nameType = "Manager" | "Room service" | "Reception";
+export type statusType =  "valid" | "invalid" | "";
+
 export interface User {
     id: number,
     name: string,
@@ -5,10 +9,10 @@ export interface User {
     phone: string,
     photo: string,
     position: {
-        name: "Manager" | "Room service" | "Reception",
+        name: nameType,
         description:string
     },
     date: string,
-    status: "valid" | "invalid" | "",
+    status:statusType,
     password: string
 }
