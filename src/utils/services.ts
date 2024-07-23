@@ -1,45 +1,42 @@
-export interface Identifiable {
-    id: number;
-}
+import { Identifiable } from "../interfaces/Identifiable";
 
 export interface ServiceController<T extends Identifiable> {
-    getAll(): T[],
-    getId(id: number): T,
-    post(item: T): T,
-    deleteID(id: number): T[],
-    put(item: T): T[], 
+    getAll(): Promise<T[]>;
+    getId(id: number): Promise<T | null>;
+    post(item: T): Promise<T[]>;  
+    deleteID(id: number): Promise<T[]>;
+    put(item: T): Promise<T[] | null>; 
 }
 
 export class ServicesGeneric<T extends Identifiable> implements ServiceController<T> {
-    private data: T[] = [];
-    constructor (initial : T[]) {
+    private data: T[];
+
+    constructor(initial: T[]) {
         this.data = initial;
     }
 
-    getAll(): T[] {
+    async getAll(): Promise<T[]> {
         return this.data;
     }
 
-    getId(id: number): T {
-        const item = this.data.find((item: any) => item.id === id);
-        if (!item) throw new Error('Item not found');
-        return item;
+    async getId(id: number): Promise<T | null> {
+        const item = this.data.find(item => item.id === id);
+        return item || null;
     }
 
-    post(item: T): T {
+    async post(item: T): Promise<T[]> {
         this.data.push(item);
-        return(item)
-    }
-
-    deleteID(id: number): T[] {
-        this.data = this.data.filter(item => item.id !== id);
         return this.data;
     }
 
-    put(update: T): T[] {
+    async deleteID(id: number): Promise<T[]> {
+        this.data = this.data.filter(item => item.id !== id);
+        return this.data; 
+    }
+
+    async put(update: T): Promise<T[] | null> {
         this.data = this.data.map((item: any) => 
-            item.id === update.id ? update : item
-        );
+        item.id === update.id ? update : item);
         return this.data;
     }
 }

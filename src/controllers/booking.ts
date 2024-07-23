@@ -1,11 +1,14 @@
-import Express from "express"
-import { BookingService } from "../services/booking"
+import Express from "express";
+import { BookingService } from "../services/booking";
+import { ControllersGeneric } from "../utils/controllers";
 
-export const BookingController = Express.Router()
-const BookingHandler = new BookingService()
+const BookingHandler = new BookingService();
+export const BookingController = Express.Router();
 
-BookingController.get('/', BookingHandler.getAll);
-BookingController.get('/:id', BookingHandler.getId);
-BookingController.post('/', BookingHandler.post);
-BookingController.delete('/:id', BookingHandler.deleteID);
-BookingController.put('/:id', BookingHandler.put);
+const { getAll, getId, post, deleteID, put } = ControllersGeneric(BookingHandler);
+
+BookingController.get('/', getAll);
+BookingController.get('/:id', getId);
+BookingController.post('/', post);
+BookingController.delete('/:id', deleteID);
+BookingController.put('/:id', put);

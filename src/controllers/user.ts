@@ -1,11 +1,14 @@
-import Express from "express"
+import Express from "express";
 import { UserService } from "../services/user";
+import { ControllersGeneric } from "../utils/controllers";
 
-export const UserController = Express.Router()
-const UserHandler = new UserService()
+const UserHandler = new UserService();
+export const UserController = Express.Router();
 
-UserController.get('/', UserHandler.getAll);
-UserController.get('/:id', UserHandler.getId);
-UserController.post('/', UserHandler.post);
-UserController.delete('/:id', UserHandler.deleteID);
-UserController.put('/:id', UserHandler.put);
+const { getAll, getId, post, deleteID, put } = ControllersGeneric(UserHandler);
+
+UserController.get('/', getAll);
+UserController.get('/:id', getId);
+UserController.post('/', post);
+UserController.delete('/:id', deleteID);
+UserController.put('/:id', put);

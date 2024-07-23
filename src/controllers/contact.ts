@@ -1,11 +1,14 @@
-import Express from "express"
+import Express from "express";
 import { ContactService } from "../services/contact";
+import { ControllersGeneric } from "../utils/controllers";
 
-export const ContactController = Express.Router()
-const ContactHandler = new ContactService()
+const ContactHandler = new ContactService();
+export const ContactController = Express.Router();
 
-ContactController.get('/', ContactHandler.getAll);
-ContactController.get('/:id', ContactHandler.getId);
-ContactController.post('/', ContactHandler.post);
-ContactController.delete('/:id', ContactHandler.deleteID);
-ContactController.put('/:id', ContactHandler.put);
+const { getAll, getId, post, deleteID, put } = ControllersGeneric(ContactHandler);
+
+ContactController.get('/', getAll);
+ContactController.get('/:id', getId);
+ContactController.post('/', post);
+ContactController.delete('/:id', deleteID);
+ContactController.put('/:id', put);
