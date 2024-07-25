@@ -30,9 +30,9 @@ ul li {
 }
 
 .route-container {
-    background-color: rgb(85, 104, 114);
+    background-color:#66BCC5;
     width: 50%;
-    color: white;
+    color: #FFF;
     padding: 10px;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

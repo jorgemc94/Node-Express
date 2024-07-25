@@ -1,4 +1,4 @@
-import { Identifiable } from "../utils/services";
+import { Identifiable } from "./Identifiable";
 
 export type statusType = "In progress" | "Check In" | "Check Out";
 

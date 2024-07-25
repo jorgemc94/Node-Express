@@ -12,7 +12,7 @@ export const ControllersGeneric = (Model: any) => {
 
     const getId = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const id = req.params.id;
+            const id = parseInt(req.params.id);
             const data = await Model.getId(id);
             res.json({ data });
         } catch (error) {
@@ -32,7 +32,7 @@ export const ControllersGeneric = (Model: any) => {
 
     const deleteID = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const id = req.params.id;
+            const id = parseInt(req.params.id);
             const remove = await Model.deleteID(id);
             res.json({ data: remove });
         } catch (error) {
