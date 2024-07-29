@@ -35,7 +35,7 @@ describe('User controller test', () => {
             .set('Authorization', `Bearer ${token}`)
             .set('Content-Type', 'application/json');
 
-        expect(res.body).toEqual({ data: await userService.getId(userId) });
+        expect(res.body).toEqual({ data: await userService.getbyId(userId) });
     });
 
     it('addUser returns a single instance of Users', async() => {

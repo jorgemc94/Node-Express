@@ -35,7 +35,7 @@ describe('Contact controller test', () => {
             .set('Authorization', `Bearer ${token}`)
             .set('Content-Type', 'application/json');
 
-        expect(res.body).toEqual({ data: await roomService.getId(roomId) });
+        expect(res.body).toEqual({ data: await roomService.getbyId(roomId) });
     });
 
     it('addRoom returns a single instance of Rooms', async() => {

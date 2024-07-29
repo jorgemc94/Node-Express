@@ -35,7 +35,7 @@ describe('Booking controller test', () => {
             .set('Authorization', `Bearer ${token}`)
             .set('Content-Type', 'application/json');
 
-        expect(res.body).toEqual({ data: await bookingService.getId(bookingId) });
+        expect(res.body).toEqual({ data: await bookingService.getbyId(bookingId) });
     });
 
     it('addBooking returns a single instance of Bookings', async() => {

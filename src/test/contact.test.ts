@@ -37,7 +37,7 @@ describe('Contact controller test', () => {
             .set('Authorization', `Bearer ${token}`)
             .set('Content-Type', 'application/json');
 
-        expect(res.body).toEqual({ data: await contactService.getId(contactId) });
+        expect(res.body).toEqual({ data: await contactService.getbyId(contactId) });
     });
 
     it('addContact returns a single instance of Contacts', async() => {

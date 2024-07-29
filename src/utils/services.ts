@@ -10,7 +10,7 @@ export interface ServiceController<T extends Identifiable> {
 }
 
 export class ServicesGeneric<T extends Identifiable> implements ServiceController<T> {
-    private model: Model<T>;
+    protected model: Model<T>;
 
     constructor(model: Model<T>) {
         this.model = model;
