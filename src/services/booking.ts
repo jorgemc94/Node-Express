@@ -1,9 +1,9 @@
 import { ServicesGeneric } from "../utils/services";
-import { BookingsData } from "../data/bookings";
+import { BookingModel } from "../models/bookings"; 
 import { Booking } from "../interfaces/Booking";
 
 export class BookingService extends ServicesGeneric<Booking> {
-    constructor () {
-        super(BookingsData);
+    constructor() {
+        super(BookingModel);
     }
 }

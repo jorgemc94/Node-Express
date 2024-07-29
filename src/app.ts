@@ -8,6 +8,7 @@ import path from 'path';
 import mustacheExpress from 'mustache-express';
 import { authTokenMiddleware } from './middleware/auth'
 import { loginController } from './controllers/login';
+import { connectdb } from './db'
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -17,6 +18,16 @@ export const app = express();
 export const port = 3000;
 
 app.use(express.json());
+
+async function startServer() {
+    try {
+        await connectdb();
+    } catch(error) {
+        console.error('Unexpected error occurred', error);
+    }
+}
+
+startServer();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));

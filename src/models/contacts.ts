@@ -9,7 +9,6 @@ const ContactSchema = new Schema<Contact> ({
         phone: {type: String, required: true},
         image: {type: String, required: true},
     },
-    id: {type: Number, required: true},
     subject: {type: String, required: true},
     comment: {type: String, required: true},
     archived: {type: String,enum:["true", "false"], required: true},

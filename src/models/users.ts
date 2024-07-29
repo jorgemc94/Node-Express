@@ -2,7 +2,6 @@ import mongoose, {Schema} from "mongoose";
 import { User } from "../interfaces/User";
 
 const UserSchema = new Schema<User> ({
-    id: {type:Number, required: true},
     name: {type:String, required: true},
     email: {type:String, required: true},
     phone: {type:String, required: true},

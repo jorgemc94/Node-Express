@@ -1,9 +1,9 @@
 import { ServicesGeneric } from "../utils/services";
-import { ContactsData } from "../data/contacts";
+import { ContactModel } from "../models/contacts"; 
 import { Contact } from "../interfaces/Contact";
 
 export class ContactService extends ServicesGeneric<Contact> {
-    constructor () {
-        super(ContactsData);
+    constructor() {
+        super(ContactModel);
     }
 }

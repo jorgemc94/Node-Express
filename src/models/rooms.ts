@@ -2,7 +2,6 @@ import mongoose, {Schema} from "mongoose";
 import { Room } from "../interfaces/Room";
 
 const RoomSchema = new Schema<Room> ({
-    id: {type:Number, required: true},
     roomNumber: {type:Number, required: true},
     availability: {type:String, required: true},
     roomType: {String},
