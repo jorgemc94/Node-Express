@@ -3,9 +3,9 @@ import { Model } from "mongoose";
 
 export interface ServiceController<T extends Identifiable> {
     getAll(): Promise<T[]>;
-    getbyId(id: number): Promise<T | null>;
+    getbyId(id: string): Promise<T | null>;
     post(item: T): Promise<T>;
-    deleteID(id: number): Promise<T | null>;
+    deleteID(id: string): Promise<T | null>;
     put(item: T): Promise<T | null>;
 }
 
@@ -20,7 +20,7 @@ export class ServicesGeneric<T extends Identifiable> implements ServiceControlle
         return this.model.find().exec();
     }
 
-    async getbyId(id: number): Promise<T | null> {
+    async getbyId(id: string): Promise<T | null> {
         return this.model.findById(id).exec();
     }
 
@@ -29,7 +29,7 @@ export class ServicesGeneric<T extends Identifiable> implements ServiceControlle
         return newItem.save();
     }
 
-    async deleteID(id: number): Promise<T | null> {
+    async deleteID(id: string): Promise<T | null> {
         return this.model.findByIdAndDelete(id).exec();
     }
 

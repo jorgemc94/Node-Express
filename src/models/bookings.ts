@@ -7,7 +7,7 @@ const BookingSchema = new Schema<Booking>({
     checkIn: { type: String, required: true },
     checkOut: { type: String, required: true },
     specialRequest: { type: String, required: true },
-    roomId: { type: Number, required: true },
+    roomId: { type: String, required: true },
     status: { type: String, enum: ["In progress", "Check In", "Check Out"], required: true },
 });
 

@@ -1,4 +1,4 @@
 
 export interface Identifiable {
-    id: number
+    id?: string;
 } 

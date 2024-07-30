@@ -3,7 +3,6 @@ import { UserModel } from '../models/users';
 import { generateAccessToken } from '../utils/auth';
 
 export class LoginService {
-
     static async authenticateUser(email: string, password: string): Promise<string> {
         const user = await UserModel.findOne({ email });
 
