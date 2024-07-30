@@ -8,7 +8,7 @@ const UserSchema = new Schema<User> ({
     photo: {type:String, required: true},
     position: {
         name: {type:String, enum: ["Manager" , "Room service" , "Reception"], required: true},
-        description:{type:String, enum: ["valid" , "invalid" , ""], required: true}
+        description:{type:String, required: true}
     },
     date: {type:String, required: true},
     status:{type:String, required: true},

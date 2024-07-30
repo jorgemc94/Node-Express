@@ -9,6 +9,7 @@ import { Contact, archivedType } from './interfaces/Contact';
 import { ContactService} from './services/contact';
 import { Booking } from './interfaces/Booking';
 import { BookingService } from './services/booking';
+import bcrypt from 'bcrypt';
 
 const NumBookings = 50;
 const NumContacts = 15;
@@ -50,6 +51,9 @@ const run = async () => {
 
     for (let i = 0; i < NumRooms; i++) {
         const photosArray: string[] = [];
+        for (let j = 0; j < 4; j++) {
+            photosArray.push(faker.image.imageUrl());
+        }
         const DataRoom: Room = {
             roomNumber: faker.number.int({ min: 1, max: 100 }),
             availability: Math.random() < 0.5 ? 'available' : 'booked',
@@ -69,9 +73,10 @@ const run = async () => {
 
     const CreatedUser: User[] = []
     const userService = new UserService();
+    const password = faker.internet.password();
+    const passwordHashed = await bcrypt.hash(password, 10)
 
     const name: nameType[] = ["Manager" , "Room service" , "Reception"];
-
 
     for (let i = 0; i < NumUsers; i++) {
         const positionName = faker.helpers.arrayElement(name);
@@ -85,13 +90,32 @@ const run = async () => {
                 description: faker.lorem.sentence(),
             },
             date: faker.date.past().toISOString(),
-            status: faker.helpers.arrayElement(["valid", "invalid", ""]),
-            password: faker.internet.password()
+            status: faker.helpers.arrayElement(["valid", "invalid"]),
+            password:passwordHashed,
         }
         
         const NewUser = await userService.post(DataUser);
         CreatedUser.push(NewUser);
     }
+
+    const mypassword = '12345';
+    const mypasswordHashed = await bcrypt.hash(mypassword, 10)
+    const PersonalUser : User = {
+        name: 'Jorge Macias Cordobés',
+        email: 'jorgemc1294@gmail.com',
+        phone: faker.phone.number(),
+        photo: faker.image.url(),
+        position:{
+            name: 'Manager',
+            description: faker.lorem.sentence(),
+        },
+        date: faker.date.past().toISOString(),
+        status: faker.helpers.arrayElement(["valid", "invalid"]),
+        password:mypasswordHashed,
+    }
+
+    const MyUser = await userService.post(PersonalUser)
+    CreatedUser.push(MyUser);
 
     const CreatedBooking: Booking [] = [];
     const bookingService = new BookingService();
@@ -105,7 +129,7 @@ const run = async () => {
         const roomId: string = (CreatedRoom[Math.floor(Math.random() * 50)] as { id: string }).id;
 
         const DataBooking: Booking = {
-            fullName: `Room ${faker.number.int({min: 0, max: 999})}`,
+            fullName: `Booking ${faker.number.int({min: 0, max: 999})}`,
             bookDate: faker.date.past().toISOString(),
             checkIn: checkInDate.toISOString().split('T')[0],
             checkOut: checkOutDate.toISOString().split('T')[0],
