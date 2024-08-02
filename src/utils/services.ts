@@ -1,42 +1,39 @@
 import { Identifiable } from "../interfaces/Identifiable";
+import { Model } from "mongoose";
 
 export interface ServiceController<T extends Identifiable> {
     getAll(): Promise<T[]>;
-    getId(id: number): Promise<T | null>;
-    post(item: T): Promise<T[]>;  
-    deleteID(id: number): Promise<T[]>;
-    put(item: T): Promise<T[] | null>; 
+    getbyId(id: string): Promise<T | null>;
+    post(item: T): Promise<T>;
+    deleteID(id: string): Promise<T | null>;
+    put(item: T): Promise<T | null>;
 }
 
 export class ServicesGeneric<T extends Identifiable> implements ServiceController<T> {
-    private data: T[];
+    protected model: Model<T>;
 
-    constructor(initial: T[]) {
-        this.data = initial;
+    constructor(model: Model<T>) {
+        this.model = model;
     }
 
     async getAll(): Promise<T[]> {
-        return this.data;
+        return this.model.find().exec();
     }
 
-    async getId(id: number): Promise<T | null> {
-        const item = this.data.find(item => item.id === id);
-        return item || null;
+    async getbyId(id: string): Promise<T | null> {
+        return this.model.findById(id).exec();
     }
 
-    async post(item: T): Promise<T[]> {
-        this.data.push(item);
-        return this.data;
+    async post(item: T): Promise<T> {
+        const newItem = new this.model(item);
+        return newItem.save();
     }
 
-    async deleteID(id: number): Promise<T[]> {
-        this.data = this.data.filter(item => item.id !== id);
-        return this.data; 
+    async deleteID(id: string): Promise<T | null> {
+        return this.model.findByIdAndDelete(id).exec();
     }
 
-    async put(update: T): Promise<T[] | null> {
-        this.data = this.data.map((item: any) => 
-        item.id === update.id ? update : item);
-        return this.data;
+    async put(update: T): Promise<T | null> {
+        return this.model.findByIdAndUpdate(update._id, update, { new: true }).exec();
     }
 }

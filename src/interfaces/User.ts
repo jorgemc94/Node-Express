@@ -3,7 +3,7 @@ export type nameType = "Manager" | "Room service" | "Reception";
 export type statusType =  "valid" | "invalid" | "";
 
 export interface User {
-    id: number,
+    _id?: string,
     name: string,
     email: string,
     phone: string,

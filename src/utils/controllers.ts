@@ -10,7 +10,7 @@ export const ControllersGeneric = (Model: any) => {
         }
     };
 
-    const getId = async (req: Request, res: Response, next: NextFunction) => {
+    const getbyId = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = parseInt(req.params.id);
             const data = await Model.getId(id);
@@ -52,7 +52,7 @@ export const ControllersGeneric = (Model: any) => {
 
     return {
         getAll,
-        getId,
+        getbyId,
         post,
         deleteID,
         put
