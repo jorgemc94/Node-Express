@@ -4,7 +4,7 @@ export type statusType = "In progress" | "Check In" | "Check Out";
 
 export interface Booking extends Identifiable {
     fullName: string,
-    id?: string,
+    _id?: string,
     bookDate: string,
     checkIn: string,
     checkOut: string,

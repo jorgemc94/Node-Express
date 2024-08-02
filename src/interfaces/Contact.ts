@@ -8,7 +8,7 @@ export interface Contact {
         phone: string,
         image: string,
     },
-    id?: string,
+    _id?: string,
     subject: string,
     comment: string,
     archived: archivedType,

@@ -9,7 +9,7 @@ import { Contact, archivedType } from './interfaces/Contact';
 import { ContactService} from './services/contact';
 import { Booking } from './interfaces/Booking';
 import { BookingService } from './services/booking';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const NumBookings = 50;
 const NumContacts = 15;
@@ -52,7 +52,7 @@ const run = async () => {
     for (let i = 0; i < NumRooms; i++) {
         const photosArray: string[] = [];
         for (let j = 0; j < 4; j++) {
-            photosArray.push(faker.image.imageUrl());
+            photosArray.push(faker.image.url());
         }
         const DataRoom: Room = {
             roomNumber: faker.number.int({ min: 1, max: 100 }),
@@ -126,7 +126,7 @@ const run = async () => {
         checkInDate.setDate(orderDate.getDate() + faker.number.int({ min: 1, max: 10 }));
         const checkOutDate: Date = new Date(checkInDate);
         checkOutDate.setDate(checkInDate.getDate() + faker.number.int({ min: 2, max: 20 }));
-        const roomId: string = (CreatedRoom[Math.floor(Math.random() * 50)] as { id: string }).id;
+        const roomId: string = (CreatedRoom[Math.floor(Math.random() * 50)] as { _id: string })._id;
 
         const DataBooking: Booking = {
             fullName: `Booking ${faker.number.int({min: 0, max: 999})}`,

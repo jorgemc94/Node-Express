@@ -1,7 +1,7 @@
 import { ServicesGeneric } from "../utils/services";
 import { UserModel } from "../models/users";
 import { User } from "../interfaces/User";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export class UserService extends ServicesGeneric<User> {
     constructor() {

@@ -34,17 +34,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'mustache');
 app.engine('mustache', mustacheExpress());
 
-app.get('/public', (_req, res) => {
+app.get('/', (_req, res) => {
     res.render('index');
 });
 
 app.use('/login', loginController)
 
-app.use(authTokenMiddleware)
-app.use('/bookings', BookingController);
-app.use('/contacts', ContactController);
-app.use('/rooms', RoomController);
-app.use('/users', UserController);
+
+app.use('/bookings', authTokenMiddleware,BookingController);
+app.use('/contacts', authTokenMiddleware,ContactController);
+app.use('/rooms',authTokenMiddleware ,RoomController);
+app.use('/users',authTokenMiddleware ,UserController);
 
 app.use((error: ErrorApi, _req: Request, res: Response, _next: NextFunction) => {
     res.status(error.status || 500).json({

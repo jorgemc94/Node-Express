@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { UserModel } from '../models/users';
 import { generateAccessToken } from '../utils/auth';
 

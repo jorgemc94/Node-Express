@@ -34,6 +34,6 @@ export class ServicesGeneric<T extends Identifiable> implements ServiceControlle
     }
 
     async put(update: T): Promise<T | null> {
-        return this.model.findByIdAndUpdate(update.id, update, { new: true }).exec();
+        return this.model.findByIdAndUpdate(update._id, update, { new: true }).exec();
     }
 }

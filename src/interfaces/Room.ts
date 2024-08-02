@@ -1,7 +1,7 @@
 export type availabilityType = "available" | "booked";
 
 export interface Room {
-    id?: string;
+    _id?: string;
     roomNumber: number,
     availability: availabilityType,
     roomType: string,
