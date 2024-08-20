@@ -8,16 +8,18 @@ import path from 'path';
 import mustacheExpress from 'mustache-express';
 import { authTokenMiddleware } from './middleware/auth'
 import { loginController } from './controllers/login';
-import { connectdb } from './db'
+import { connectdb } from './db';
+const cors = require('cors')
 
 const dotenv = require('dotenv');
 dotenv.config();
 process.env.TOKEN_SECRET;
 
 export const app = express();
-export const port = 3000;
+export const port = 3001;
 
 app.use(express.json());
+app.use(cors());
 
 async function startServer() {
     try {
