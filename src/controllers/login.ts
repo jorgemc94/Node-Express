@@ -1,23 +1,42 @@
-import express, { Request, Response } from 'express';
-import { LoginService } from '../services/login';
+import express, { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { UserModel } from '../models/users';
+import bcrypt from 'bcryptjs';
 
 export const loginController = express.Router();
 
-loginController.post('/', async (req: Request, res: Response) => {
+interface userData {
+    email: string | null,
+    password: string | null
+}
+
+let userChecked: userData = {email: null, password: null};
+
+loginController.post('/', async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
+    const checked = await checkUser(email, password)
 
-    if (!email || !password) {
-        return res.status(400).json({ error: 'Email and password are required' });
+    if (checked) {
+        const token = jwt.sign({email, password}, process.env.TOKEN_SECRET || 'secrectKey', {expiresIn: '1h'});
+        userChecked.password = password;
+        res.json({Token: token, User: userChecked})
+    } else {
+        const error = new Error ('Invalid Credentials')
+        next(error)
     }
-
-    try {
-        const token: string = await LoginService.authenticateUser(email, password);
-        return res.json({ token });
-    } catch (error) {
-        if (error instanceof Error) {
-            return res.status(401).json({ error: error.message });
-        } else {
-            return res.status(500).json({ error: 'An unexpected error occurred' });
-        }
-    }
+    
 });
+
+async function checkUser(email: string, password: string): Promise<boolean> {
+    try {
+        const user = await UserModel.findOne({email: email}).exec();
+        if (user) {
+            userChecked = {email: user.email, password: user.password}
+            return await bcrypt.compare(password, user.password)
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error('Error fetching user');
+    }
+}
