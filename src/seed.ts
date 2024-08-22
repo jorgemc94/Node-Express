@@ -40,7 +40,7 @@ const run = async () => {
             archived: archivedType,
         }
         
-        const NewContact = await contactService.post(DataContact)
+        const NewContact = await contactService.add(DataContact)
         CreatedContact.push(NewContact);
     }
 
@@ -67,7 +67,7 @@ const run = async () => {
             photosArray: photosArray,
         };
 
-        const NewRoom = await roomService.post(DataRoom);
+        const NewRoom = await roomService.add(DataRoom);
         CreatedRoom.push(NewRoom);
     }
 
@@ -94,7 +94,7 @@ const run = async () => {
             password:passwordHashed,
         }
         
-        const NewUser = await userService.post(DataUser);
+        const NewUser = await userService.add(DataUser);
         CreatedUser.push(NewUser);
     }
 
@@ -114,7 +114,7 @@ const run = async () => {
         password:mypasswordHashed,
     }
 
-    const MyUser = await userService.post(PersonalUser)
+    const MyUser = await userService.add(PersonalUser)
     CreatedUser.push(MyUser);
 
     const CreatedBooking: Booking [] = [];
@@ -138,7 +138,7 @@ const run = async () => {
             status: faker.helpers.arrayElement(["In progress", "Check In", "Check Out"]),
         }
         
-        const NewBooking = await bookingService.post(DataBooking)
+        const NewBooking = await bookingService.add(DataBooking)
         CreatedBooking.push(NewBooking);
     }
 }

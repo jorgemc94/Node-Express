@@ -4,9 +4,9 @@ import { Model } from "mongoose";
 export interface ServiceController<T extends Identifiable> {
     getAll(): Promise<T[]>;
     getbyId(id: string): Promise<T | null>;
-    post(item: T): Promise<T>;
+    add(item: T): Promise<T>;  // Método 'add'
     deleteID(id: string): Promise<T | null>;
-    put(item: T): Promise<T | null>;
+    update(item: T): Promise<T | null>;  // Método 'update'
 }
 
 export class ServicesGeneric<T extends Identifiable> implements ServiceController<T> {
@@ -21,10 +21,10 @@ export class ServicesGeneric<T extends Identifiable> implements ServiceControlle
     }
 
     async getbyId(id: string): Promise<T | null> {
-       return this.model.findById(id).exec();
+        return this.model.findById(id).exec();
     }
 
-    async post(item: T): Promise<T> {
+    async add(item: T): Promise<T> {  // Método 'add'
         const newItem = new this.model(item);
         return newItem.save();
     }
@@ -33,7 +33,7 @@ export class ServicesGeneric<T extends Identifiable> implements ServiceControlle
         return this.model.findByIdAndDelete(id).exec();
     }
 
-    async put(update: T): Promise<T | null> {
-        return this.model.findByIdAndUpdate(update._id, update, { new: true }).exec();
+    async update(item: T): Promise<T | null> {  // Método 'update'
+        return this.model.findByIdAndUpdate(item._id, item, { new: true }).exec();
     }
 }
