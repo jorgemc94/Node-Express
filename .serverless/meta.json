@@ -1,708 +1,12 @@
 {
   "C:\\Users\\Jorge\\Desktop\\training\\Node-Express": {
     "versionSfCore": null,
-    "versionFramework": "4.1.23",
+    "versionFramework": "4.2.1",
     "isWithinCompose": false,
     "isCompose": false,
     "composeOrgName": null,
     "composeResolverProviders": {
-      "aws": {
-        "instance": {
-          "credentials": "<REDACTED>",
-          "serviceConfigFile": {
-            "service": "miranda-backend",
-            "package": {
-              "patterns": [
-                "!./**",
-                "package.json",
-                "node_modules/**",
-                "dist/**"
-              ],
-              "artifactsS3KeyDirname": "serverless/miranda-backend/dev/code-artifacts",
-              "artifact": "C:\\Users\\Jorge\\Desktop\\training\\Node-Express\\.serverless\\miranda-backend.zip",
-              "artifactDirectoryName": "serverless/miranda-backend/dev/1724237980471-2024-08-21T10:59:40.471Z"
-            },
-            "provider": {
-              "name": "aws",
-              "region": "eu-west-3",
-              "environment": {
-                "TOKEN_SECRET": "<REDACTED>",
-                "MONGO_KEY": "mongodb+srv://jmaciasc1994:Jorg€mc1994@cluster0.uv8zfmo.mongodb.net/BackendMiranda"
-              },
-              "runtime": "nodejs20.x",
-              "stage": "dev",
-              "versionFunctions": true,
-              "compiledCloudFormationTemplate": {
-                "AWSTemplateFormatVersion": "2010-09-09",
-                "Description": "The AWS CloudFormation template for this Serverless application",
-                "Resources": {
-                  "ServerlessDeploymentBucket": {
-                    "Type": "AWS::S3::Bucket",
-                    "Properties": {
-                      "BucketEncryption": {
-                        "ServerSideEncryptionConfiguration": [
-                          {
-                            "ServerSideEncryptionByDefault": {
-                              "SSEAlgorithm": "AES256"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "ServerlessDeploymentBucketPolicy": {
-                    "Type": "AWS::S3::BucketPolicy",
-                    "Properties": {
-                      "Bucket": {
-                        "Ref": "ServerlessDeploymentBucket"
-                      },
-                      "PolicyDocument": {
-                        "Statement": [
-                          {
-                            "Action": "s3:*",
-                            "Effect": "Deny",
-                            "Principal": "*",
-                            "Resource": [
-                              {
-                                "Fn::Join": [
-                                  "",
-                                  [
-                                    "arn:",
-                                    {
-                                      "Ref": "AWS::Partition"
-                                    },
-                                    ":s3:::",
-                                    {
-                                      "Ref": "ServerlessDeploymentBucket"
-                                    },
-                                    "/*"
-                                  ]
-                                ]
-                              },
-                              {
-                                "Fn::Join": [
-                                  "",
-                                  [
-                                    "arn:",
-                                    {
-                                      "Ref": "AWS::Partition"
-                                    },
-                                    ":s3:::",
-                                    {
-                                      "Ref": "ServerlessDeploymentBucket"
-                                    }
-                                  ]
-                                ]
-                              }
-                            ],
-                            "Condition": {
-                              "Bool": {
-                                "aws:SecureTransport": false
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "AppLogGroup": {
-                    "Type": "AWS::Logs::LogGroup",
-                    "Properties": {
-                      "LogGroupName": "/aws/lambda/miranda-backend-dev-app"
-                    }
-                  },
-                  "IamRoleLambdaExecution": {
-                    "Type": "AWS::IAM::Role",
-                    "Properties": {
-                      "AssumeRolePolicyDocument": {
-                        "Version": "2012-10-17",
-                        "Statement": [
-                          {
-                            "Effect": "Allow",
-                            "Principal": {
-                              "Service": [
-                                "lambda.amazonaws.com"
-                              ]
-                            },
-                            "Action": [
-                              "sts:AssumeRole"
-                            ]
-                          }
-                        ]
-                      },
-                      "Policies": [
-                        {
-                          "PolicyName": {
-                            "Fn::Join": [
-                              "-",
-                              [
-                                "miranda-backend",
-                                "dev",
-                                "lambda"
-                              ]
-                            ]
-                          },
-                          "PolicyDocument": {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                              {
-                                "Effect": "Allow",
-                                "Action": [
-                                  "logs:CreateLogStream",
-                                  "logs:CreateLogGroup",
-                                  "logs:TagResource"
-                                ],
-                                "Resource": [
-                                  {
-                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miranda-backend-dev*:*"
-                                  }
-                                ]
-                              },
-                              {
-                                "Effect": "Allow",
-                                "Action": [
-                                  "logs:PutLogEvents"
-                                ],
-                                "Resource": [
-                                  {
-                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miranda-backend-dev*:*:*"
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        }
-                      ],
-                      "Path": "/",
-                      "RoleName": {
-                        "Fn::Join": [
-                          "-",
-                          [
-                            "miranda-backend",
-                            "dev",
-                            {
-                              "Ref": "AWS::Region"
-                            },
-                            "lambdaRole"
-                          ]
-                        ]
-                      }
-                    }
-                  },
-                  "AppLambdaFunction": {
-                    "Type": "AWS::Lambda::Function",
-                    "Properties": {
-                      "Code": {
-                        "S3Bucket": {
-                          "Ref": "ServerlessDeploymentBucket"
-                        },
-                        "S3Key": "serverless/miranda-backend/dev/1724237980471-2024-08-21T10:59:40.471Z/miranda-backend.zip"
-                      },
-                      "Handler": "dist/lambda.handler",
-                      "Runtime": "nodejs20.x",
-                      "FunctionName": "miranda-backend-dev-app",
-                      "MemorySize": 1024,
-                      "Timeout": 6,
-                      "Environment": {
-                        "Variables": {
-                          "TOKEN_SECRET": "<REDACTED>",
-                          "MONGO_KEY": "mongodb+srv://jmaciasc1994:Jorg€mc1994@cluster0.uv8zfmo.mongodb.net/BackendMiranda"
-                        }
-                      },
-                      "Role": {
-                        "Fn::GetAtt": [
-                          "IamRoleLambdaExecution",
-                          "Arn"
-                        ]
-                      }
-                    },
-                    "DependsOn": [
-                      "AppLogGroup"
-                    ]
-                  },
-                  "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM": {
-                    "Type": "AWS::Lambda::Version",
-                    "DeletionPolicy": "Retain",
-                    "Properties": {
-                      "FunctionName": {
-                        "Ref": "AppLambdaFunction"
-                      },
-                      "CodeSha256": "nZB3qI/7bcNJItigCid4I40GTXwC56PIOZbIFyp0Eno="
-                    }
-                  },
-                  "ApiGatewayRestApi": {
-                    "Type": "AWS::ApiGateway::RestApi",
-                    "Properties": {
-                      "Name": "dev-miranda-backend",
-                      "EndpointConfiguration": {
-                        "Types": [
-                          "EDGE"
-                        ]
-                      },
-                      "Policy": ""
-                    }
-                  },
-                  "ApiGatewayResourceProxyVar": {
-                    "Type": "AWS::ApiGateway::Resource",
-                    "Properties": {
-                      "ParentId": {
-                        "Fn::GetAtt": [
-                          "ApiGatewayRestApi",
-                          "RootResourceId"
-                        ]
-                      },
-                      "PathPart": "{proxy+}",
-                      "RestApiId": {
-                        "Ref": "ApiGatewayRestApi"
-                      }
-                    }
-                  },
-                  "ApiGatewayMethodOptions": {
-                    "Type": "AWS::ApiGateway::Method",
-                    "Properties": {
-                      "AuthorizationType": "NONE",
-                      "HttpMethod": "OPTIONS",
-                      "MethodResponses": [
-                        {
-                          "StatusCode": "200",
-                          "ResponseParameters": {
-                            "method.response.header.Access-Control-Allow-Origin": true,
-                            "method.response.header.Access-Control-Allow-Headers": true,
-                            "method.response.header.Access-Control-Allow-Methods": true
-                          },
-                          "ResponseModels": {}
-                        }
-                      ],
-                      "RequestParameters": {},
-                      "Integration": {
-                        "Type": "MOCK",
-                        "RequestTemplates": {
-                          "application/json": "{statusCode:200}"
-                        },
-                        "ContentHandling": "CONVERT_TO_TEXT",
-                        "IntegrationResponses": [
-                          {
-                            "StatusCode": "200",
-                            "ResponseParameters": {
-                              "method.response.header.Access-Control-Allow-Origin": "'*'",
-                              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
-                            },
-                            "ResponseTemplates": {
-                              "application/json": ""
-                            }
-                          }
-                        ]
-                      },
-                      "ResourceId": {
-                        "Fn::GetAtt": [
-                          "ApiGatewayRestApi",
-                          "RootResourceId"
-                        ]
-                      },
-                      "RestApiId": {
-                        "Ref": "ApiGatewayRestApi"
-                      }
-                    }
-                  },
-                  "ApiGatewayMethodProxyVarOptions": {
-                    "Type": "AWS::ApiGateway::Method",
-                    "Properties": {
-                      "AuthorizationType": "NONE",
-                      "HttpMethod": "OPTIONS",
-                      "MethodResponses": [
-                        {
-                          "StatusCode": "200",
-                          "ResponseParameters": {
-                            "method.response.header.Access-Control-Allow-Origin": true,
-                            "method.response.header.Access-Control-Allow-Headers": true,
-                            "method.response.header.Access-Control-Allow-Methods": true
-                          },
-                          "ResponseModels": {}
-                        }
-                      ],
-                      "RequestParameters": {},
-                      "Integration": {
-                        "Type": "MOCK",
-                        "RequestTemplates": {
-                          "application/json": "{statusCode:200}"
-                        },
-                        "ContentHandling": "CONVERT_TO_TEXT",
-                        "IntegrationResponses": [
-                          {
-                            "StatusCode": "200",
-                            "ResponseParameters": {
-                              "method.response.header.Access-Control-Allow-Origin": "'*'",
-                              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
-                            },
-                            "ResponseTemplates": {
-                              "application/json": ""
-                            }
-                          }
-                        ]
-                      },
-                      "ResourceId": {
-                        "Ref": "ApiGatewayResourceProxyVar"
-                      },
-                      "RestApiId": {
-                        "Ref": "ApiGatewayRestApi"
-                      }
-                    }
-                  },
-                  "ApiGatewayMethodAny": {
-                    "Type": "AWS::ApiGateway::Method",
-                    "Properties": {
-                      "HttpMethod": "ANY",
-                      "RequestParameters": {},
-                      "ResourceId": {
-                        "Fn::GetAtt": [
-                          "ApiGatewayRestApi",
-                          "RootResourceId"
-                        ]
-                      },
-                      "RestApiId": {
-                        "Ref": "ApiGatewayRestApi"
-                      },
-                      "ApiKeyRequired": "<REDACTED>",
-                      "AuthorizationType": "NONE",
-                      "Integration": {
-                        "IntegrationHttpMethod": "POST",
-                        "Type": "AWS_PROXY",
-                        "Uri": {
-                          "Fn::Join": [
-                            "",
-                            [
-                              "arn:",
-                              {
-                                "Ref": "AWS::Partition"
-                              },
-                              ":apigateway:",
-                              {
-                                "Ref": "AWS::Region"
-                              },
-                              ":lambda:path/2015-03-31/functions/",
-                              {
-                                "Fn::GetAtt": [
-                                  "AppLambdaFunction",
-                                  "Arn"
-                                ]
-                              },
-                              "/invocations"
-                            ]
-                          ]
-                        }
-                      },
-                      "MethodResponses": []
-                    },
-                    "DependsOn": [
-                      "AppLambdaPermissionApiGateway"
-                    ]
-                  },
-                  "ApiGatewayMethodProxyVarAny": {
-                    "Type": "AWS::ApiGateway::Method",
-                    "Properties": {
-                      "HttpMethod": "ANY",
-                      "RequestParameters": {},
-                      "ResourceId": {
-                        "Ref": "ApiGatewayResourceProxyVar"
-                      },
-                      "RestApiId": {
-                        "Ref": "ApiGatewayRestApi"
-                      },
-                      "ApiKeyRequired": "<REDACTED>",
-                      "AuthorizationType": "NONE",
-                      "Integration": {
-                        "IntegrationHttpMethod": "POST",
-                        "Type": "AWS_PROXY",
-                        "Uri": {
-                          "Fn::Join": [
-                            "",
-                            [
-                              "arn:",
-                              {
-                                "Ref": "AWS::Partition"
-                              },
-                              ":apigateway:",
-                              {
-                                "Ref": "AWS::Region"
-                              },
-                              ":lambda:path/2015-03-31/functions/",
-                              {
-                                "Fn::GetAtt": [
-                                  "AppLambdaFunction",
-                                  "Arn"
-                                ]
-                              },
-                              "/invocations"
-                            ]
-                          ]
-                        }
-                      },
-                      "MethodResponses": []
-                    },
-                    "DependsOn": [
-                      "AppLambdaPermissionApiGateway"
-                    ]
-                  },
-                  "ApiGatewayDeployment1724237968099": {
-                    "Type": "AWS::ApiGateway::Deployment",
-                    "Properties": {
-                      "RestApiId": {
-                        "Ref": "ApiGatewayRestApi"
-                      },
-                      "StageName": "dev"
-                    },
-                    "DependsOn": [
-                      "ApiGatewayMethodOptions",
-                      "ApiGatewayMethodProxyVarOptions",
-                      "ApiGatewayMethodAny",
-                      "ApiGatewayMethodProxyVarAny"
-                    ]
-                  },
-                  "AppLambdaPermissionApiGateway": {
-                    "Type": "AWS::Lambda::Permission",
-                    "Properties": {
-                      "FunctionName": {
-                        "Fn::GetAtt": [
-                          "AppLambdaFunction",
-                          "Arn"
-                        ]
-                      },
-                      "Action": "lambda:InvokeFunction",
-                      "Principal": "apigateway.amazonaws.com",
-                      "SourceArn": {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:",
-                            {
-                              "Ref": "AWS::Partition"
-                            },
-                            ":execute-api:",
-                            {
-                              "Ref": "AWS::Region"
-                            },
-                            ":",
-                            {
-                              "Ref": "AWS::AccountId"
-                            },
-                            ":",
-                            {
-                              "Ref": "ApiGatewayRestApi"
-                            },
-                            "/*/*"
-                          ]
-                        ]
-                      }
-                    }
-                  }
-                },
-                "Outputs": {
-                  "ServerlessDeploymentBucketName": {
-                    "Value": {
-                      "Ref": "ServerlessDeploymentBucket"
-                    },
-                    "Export": {
-                      "Name": "sls-miranda-backend-dev-ServerlessDeploymentBucketName"
-                    }
-                  },
-                  "AppLambdaFunctionQualifiedArn": {
-                    "Description": "Current Lambda function version",
-                    "Value": {
-                      "Ref": "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM"
-                    },
-                    "Export": {
-                      "Name": "sls-miranda-backend-dev-AppLambdaFunctionQualifiedArn"
-                    }
-                  },
-                  "ServiceEndpoint": {
-                    "Description": "URL of the service endpoint",
-                    "Value": {
-                      "Fn::Join": [
-                        "",
-                        [
-                          "https://",
-                          {
-                            "Ref": "ApiGatewayRestApi"
-                          },
-                          ".execute-api.",
-                          {
-                            "Ref": "AWS::Region"
-                          },
-                          ".",
-                          {
-                            "Ref": "AWS::URLSuffix"
-                          },
-                          "/dev"
-                        ]
-                      ]
-                    },
-                    "Export": {
-                      "Name": "sls-miranda-backend-dev-ServiceEndpoint"
-                    }
-                  }
-                }
-              },
-              "coreCloudFormationTemplate": {
-                "AWSTemplateFormatVersion": "2010-09-09",
-                "Description": "The AWS CloudFormation template for this Serverless application",
-                "Resources": {
-                  "ServerlessDeploymentBucket": {
-                    "Type": "AWS::S3::Bucket",
-                    "Properties": {
-                      "BucketEncryption": {
-                        "ServerSideEncryptionConfiguration": [
-                          {
-                            "ServerSideEncryptionByDefault": {
-                              "SSEAlgorithm": "AES256"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "ServerlessDeploymentBucketPolicy": {
-                    "Type": "AWS::S3::BucketPolicy",
-                    "Properties": {
-                      "Bucket": {
-                        "Ref": "ServerlessDeploymentBucket"
-                      },
-                      "PolicyDocument": {
-                        "Statement": [
-                          {
-                            "Action": "s3:*",
-                            "Effect": "Deny",
-                            "Principal": "*",
-                            "Resource": [
-                              {
-                                "Fn::Join": [
-                                  "",
-                                  [
-                                    "arn:",
-                                    {
-                                      "Ref": "AWS::Partition"
-                                    },
-                                    ":s3:::",
-                                    {
-                                      "Ref": "ServerlessDeploymentBucket"
-                                    },
-                                    "/*"
-                                  ]
-                                ]
-                              },
-                              {
-                                "Fn::Join": [
-                                  "",
-                                  [
-                                    "arn:",
-                                    {
-                                      "Ref": "AWS::Partition"
-                                    },
-                                    ":s3:::",
-                                    {
-                                      "Ref": "ServerlessDeploymentBucket"
-                                    }
-                                  ]
-                                ]
-                              }
-                            ],
-                            "Condition": {
-                              "Bool": {
-                                "aws:SecureTransport": false
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "Outputs": {
-                  "ServerlessDeploymentBucketName": {
-                    "Value": {
-                      "Ref": "ServerlessDeploymentBucket"
-                    }
-                  }
-                }
-              },
-              "vpc": {}
-            },
-            "functions": {
-              "app": {
-                "handler": "dist/lambda.handler",
-                "events": [
-                  {
-                    "http": {
-                      "path": "",
-                      "method": "any",
-                      "cors": {
-                        "origin": "*",
-                        "methods": [
-                          "OPTIONS",
-                          "ANY"
-                        ],
-                        "headers": [
-                          "Content-Type",
-                          "X-Amz-Date",
-                          "Authorization",
-                          "X-Api-Key",
-                          "X-Amz-Security-Token",
-                          "X-Amz-User-Agent",
-                          "X-Amzn-Trace-Id"
-                        ],
-                        "allowCredentials": "<REDACTED>"
-                      },
-                      "integration": "AWS_PROXY"
-                    }
-                  },
-                  {
-                    "http": {
-                      "path": "{proxy+}",
-                      "method": "any",
-                      "cors": {
-                        "origin": "*",
-                        "methods": [
-                          "OPTIONS",
-                          "ANY"
-                        ],
-                        "headers": [
-                          "Content-Type",
-                          "X-Amz-Date",
-                          "Authorization",
-                          "X-Api-Key",
-                          "X-Amz-Security-Token",
-                          "X-Amz-User-Agent",
-                          "X-Amzn-Trace-Id"
-                        ],
-                        "allowCredentials": "<REDACTED>"
-                      },
-                      "integration": "AWS_PROXY"
-                    }
-                  }
-                ],
-                "name": "miranda-backend-dev-app",
-                "package": {},
-                "memory": 1024,
-                "timeout": 6,
-                "runtime": "nodejs20.x",
-                "vpc": {},
-                "versionLogicalId": "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM"
-              }
-            }
-          },
-          "configFileDirPath": "C:\\Users\\Jorge\\Desktop\\training\\Node-Express",
-          "config": {
-            "type": "aws"
-          },
-          "options": {},
-          "stage": "dev",
-          "dashboard": null,
-          "_credentialsPromise": "<REDACTED>",
-          "isDefaultConfig": true
-        },
-        "resolvers": {}
-      },
+      "default-aws-credential-resolver": "<REDACTED>",
       "env": {
         "instance": {
           "credentials": "<REDACTED>",
@@ -717,7 +21,7 @@
               ],
               "artifactsS3KeyDirname": "serverless/miranda-backend/dev/code-artifacts",
               "artifact": "C:\\Users\\Jorge\\Desktop\\training\\Node-Express\\.serverless\\miranda-backend.zip",
-              "artifactDirectoryName": "serverless/miranda-backend/dev/1724237980471-2024-08-21T10:59:40.471Z"
+              "artifactDirectoryName": "serverless/miranda-backend/dev/1724342439969-2024-08-22T16:00:39.969Z"
             },
             "provider": {
               "name": "aws",
@@ -893,7 +197,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/miranda-backend/dev/1724237980471-2024-08-21T10:59:40.471Z/miranda-backend.zip"
+                        "S3Key": "serverless/miranda-backend/dev/1724342439969-2024-08-22T16:00:39.969Z/miranda-backend.zip"
                       },
                       "Handler": "dist/lambda.handler",
                       "Runtime": "nodejs20.x",
@@ -917,14 +221,14 @@
                       "AppLogGroup"
                     ]
                   },
-                  "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM": {
+                  "AppLambdaVersion8EQGs1Nb07vh5ojhBUBW7ZV6uA5jn60547pFcCW3Y": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "AppLambdaFunction"
                       },
-                      "CodeSha256": "nZB3qI/7bcNJItigCid4I40GTXwC56PIOZbIFyp0Eno="
+                      "CodeSha256": "3u0FI1oa1QdFeTKAA5mcdda35b5SZlo6KHjANTojeqA="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -1142,7 +446,7 @@
                       "AppLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1724237968099": {
+                  "ApiGatewayDeployment1724342415933": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -1207,7 +511,7 @@
                   "AppLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM"
+                      "Ref": "AppLambdaVersion8EQGs1Nb07vh5ojhBUBW7ZV6uA5jn60547pFcCW3Y"
                     },
                     "Export": {
                       "Name": "sls-miranda-backend-dev-AppLambdaFunctionQualifiedArn"
@@ -1384,7 +688,7 @@
                 "timeout": 6,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM"
+                "versionLogicalId": "AppLambdaVersion8EQGs1Nb07vh5ojhBUBW7ZV6uA5jn60547pFcCW3Y"
               }
             }
           },
@@ -1414,7 +718,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/miranda-backend/dev/code-artifacts",
         "artifact": "C:\\Users\\Jorge\\Desktop\\training\\Node-Express\\.serverless\\miranda-backend.zip",
-        "artifactDirectoryName": "serverless/miranda-backend/dev/1724237980471-2024-08-21T10:59:40.471Z"
+        "artifactDirectoryName": "serverless/miranda-backend/dev/1724342439969-2024-08-22T16:00:39.969Z"
       },
       "provider": {
         "name": "aws",
@@ -1590,7 +894,7 @@
                   "S3Bucket": {
                     "Ref": "ServerlessDeploymentBucket"
                   },
-                  "S3Key": "serverless/miranda-backend/dev/1724237980471-2024-08-21T10:59:40.471Z/miranda-backend.zip"
+                  "S3Key": "serverless/miranda-backend/dev/1724342439969-2024-08-22T16:00:39.969Z/miranda-backend.zip"
                 },
                 "Handler": "dist/lambda.handler",
                 "Runtime": "nodejs20.x",
@@ -1614,14 +918,14 @@
                 "AppLogGroup"
               ]
             },
-            "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM": {
+            "AppLambdaVersion8EQGs1Nb07vh5ojhBUBW7ZV6uA5jn60547pFcCW3Y": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "AppLambdaFunction"
                 },
-                "CodeSha256": "nZB3qI/7bcNJItigCid4I40GTXwC56PIOZbIFyp0Eno="
+                "CodeSha256": "3u0FI1oa1QdFeTKAA5mcdda35b5SZlo6KHjANTojeqA="
               }
             },
             "ApiGatewayRestApi": {
@@ -1839,7 +1143,7 @@
                 "AppLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1724237968099": {
+            "ApiGatewayDeployment1724342415933": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -1904,7 +1208,7 @@
             "AppLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM"
+                "Ref": "AppLambdaVersion8EQGs1Nb07vh5ojhBUBW7ZV6uA5jn60547pFcCW3Y"
               },
               "Export": {
                 "Name": "sls-miranda-backend-dev-AppLambdaFunctionQualifiedArn"
@@ -2081,7 +1385,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "AppLambdaVersionFKPxAQzbi6ac9YUpwCfbWrFzCXyhymCpPcGgDppM"
+          "versionLogicalId": "AppLambdaVersion8EQGs1Nb07vh5ojhBUBW7ZV6uA5jn60547pFcCW3Y"
         }
       }
     },
@@ -2112,17 +1416,18 @@
     "userEmail": "jmaciasc1994@gmail.com",
     "serviceProviderAwsCredentials": "<REDACTED>",
     "serviceProviderAwsAccountId": "851725414207",
-    "versionSf": "4.1.23",
+    "projectType": "framework",
+    "versionSf": "4.2.1",
     "serviceProviderAwsCfStackName": "miranda-backend-dev",
     "integrations": {},
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:eu-west-3:851725414207:stack/miranda-backend-dev/4bfede60-4ff9-11ef-b5ce-06cc83e0c8bd",
     "serviceProviderAwsCfStackCreated": "2024-08-01T11:29:21.280Z",
-    "serviceProviderAwsCfStackUpdated": "2024-08-21T10:59:46.398Z",
+    "serviceProviderAwsCfStackUpdated": "2024-08-22T15:51:08.530Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "AppLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:eu-west-3:851725414207:function:miranda-backend-dev-app:12",
+        "OutputValue": "arn:aws:lambda:eu-west-3:851725414207:function:miranda-backend-dev-app:20",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miranda-backend-dev-AppLambdaFunctionQualifiedArn"
       },

@@ -19,7 +19,8 @@ export const app = express();
 export const port = 3001;
 
 app.use(express.json());
-app.use(cors());
+const corsOptions = {  origin: 'http://localhost:5173',  optionsSuccessStatus: 200};
+app.use(cors(corsOptions));
 
 async function startServer() {
     try {

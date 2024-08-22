@@ -7,10 +7,12 @@ export const loginController = express.Router();
 
 interface userData {
     email: string | null,
-    password: string | null
+    password: string | null,
+    name: string | null,
+    photo: string | null
 }
 
-let userChecked: userData = {email: null, password: null};
+let userChecked: userData = {email: null, password: null, name: null, photo: null};
 
 loginController.post('/', async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
@@ -31,7 +33,7 @@ async function checkUser(email: string, password: string): Promise<boolean> {
     try {
         const user = await UserModel.findOne({email: email}).exec();
         if (user) {
-            userChecked = {email: user.email, password: user.password}
+            userChecked = {email: user.email, password: user.password, name: user.name, photo: user.photo}
             return await bcrypt.compare(password, user.password)
         } else {
             return false

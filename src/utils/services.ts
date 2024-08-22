@@ -21,7 +21,7 @@ export class ServicesGeneric<T extends Identifiable> implements ServiceControlle
     }
 
     async getbyId(id: string): Promise<T | null> {
-        return this.model.findById(id).exec();
+       return this.model.findById(id).exec();
     }
 
     async post(item: T): Promise<T> {

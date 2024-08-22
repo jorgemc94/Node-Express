@@ -4,7 +4,7 @@ export const ControllersGeneric = (Model: any) => {
     const getAll = async (_req: Request, res: Response, next: NextFunction) => {
         try {
             const data = await Model.getAll();
-            res.json({ data });
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -12,9 +12,9 @@ export const ControllersGeneric = (Model: any) => {
 
     const getbyId = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const id = parseInt(req.params.id);
-            const data = await Model.getId(id);
-            res.json({ data });
+            const id = (req.params.id);
+            const data = await Model.getbyId(id);
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -24,7 +24,7 @@ export const ControllersGeneric = (Model: any) => {
         try {
             const New = req.body;
             const Create = await Model.post(New);
-            res.json({ data: Create });
+            res.json(Create );
         } catch (error) {
             next(error);
         }
@@ -32,9 +32,9 @@ export const ControllersGeneric = (Model: any) => {
 
     const deleteID = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const id = parseInt(req.params.id);
+            const id = (req.params.id);
             const remove = await Model.deleteID(id);
-            res.json({ data: remove });
+            res.json(remove);
         } catch (error) {
             next(error);
         }
@@ -43,8 +43,9 @@ export const ControllersGeneric = (Model: any) => {
     const put = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const modify = req.body;
+            console.log(req.body)
             const update = await Model.put(modify);
-            res.json({ data: update });
+            res.json(update);
         } catch (error) {
             next(error);
         }

@@ -9,6 +9,6 @@ const { getAll, getbyId, post, deleteID, put } = ControllersGeneric(BookingHandl
 
 BookingController.get('/', getAll);
 BookingController.get('/:id', getbyId);
-BookingController.post('/', post);
-BookingController.delete('/:id', deleteID);
-BookingController.put('/:id', put);
+BookingController.post('/newBooking', post);
+BookingController.delete('/delete/:id', deleteID);
+BookingController.put('update/:id', put);
