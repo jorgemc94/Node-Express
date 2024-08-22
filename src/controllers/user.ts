@@ -9,6 +9,6 @@ const { getAll, getbyId, add, deleteID, update } = ControllersGeneric(UserHandle
 
 UserController.get('/', getAll);
 UserController.get('/:id', getbyId);
-UserController.post('/', add);
-UserController.delete('/:id', deleteID);
+UserController.post('/newUser', add);
+UserController.delete('/delete/:id', deleteID);
 UserController.put('/:id', update);

@@ -9,6 +9,6 @@ const { getAll, getbyId, add, deleteID, update } = ControllersGeneric(ContactHan
 
 ContactController.get('/', getAll);
 ContactController.get('/:id', getbyId);
-ContactController.post('/', add);
-ContactController.delete('/:id', deleteID);
+ContactController.post('/newContact', add);
+ContactController.delete('/delete/:id', deleteID);
 ContactController.put('/:id', update);

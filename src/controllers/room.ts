@@ -9,6 +9,6 @@ const { getAll, getbyId, add, deleteID, update } = ControllersGeneric(RoomHandle
 
 RoomController.get('/', getAll);
 RoomController.get('/:id', getbyId);
-RoomController.post('/', add);
-RoomController.delete('/:id', deleteID);
+RoomController.post('/newRoom', add);
+RoomController.delete('/delete/:id', deleteID);
 RoomController.put('/:id', update);
