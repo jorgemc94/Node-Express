@@ -19,8 +19,8 @@ export const app = express();
 export const port = 3001;
 
 app.use(express.json());
-const corsOptions = {  origin: 'http://localhost:5173',  optionsSuccessStatus: 200};
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 async function startServer() {
     try {
@@ -50,6 +50,7 @@ app.use('/rooms',authTokenMiddleware ,RoomController);
 app.use('/users',authTokenMiddleware ,UserController);
 
 app.use((error: ErrorApi, _req: Request, res: Response, _next: NextFunction) => {
+    console.error(error)
     res.status(error.status || 500).json({
         message: error.safe ? error.message : 'Error in the application',
     });
