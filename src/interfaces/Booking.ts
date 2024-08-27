@@ -1,14 +1,13 @@
-import { Identifiable } from "./Identifiable";
 
 export type statusType = "In progress" | "Check In" | "Check Out";
 
-export interface Booking extends Identifiable {
+export interface Booking {
     fullName: string,
-    _id?: string,
+    _id?: number,
     bookDate: string,
     checkIn: string,
     checkOut: string,
     specialRequest: string,
-    roomId: string,
+    roomId: number,
     status: statusType,
 };

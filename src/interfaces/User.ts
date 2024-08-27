@@ -1,9 +1,9 @@
 
 export type nameType = "Manager" | "Room service" | "Reception";
-export type statusType =  "valid" | "invalid" | "";
+export type statusType =  "valid" | "invalid";
 
 export interface User {
-    _id?: string,
+    _id?: number,
     name: string,
     email: string,
     phone: string,

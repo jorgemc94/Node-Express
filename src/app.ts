@@ -8,7 +8,7 @@ import path from 'path';
 import mustacheExpress from 'mustache-express';
 import { authTokenMiddleware } from './middleware/auth'
 import { loginController } from './controllers/login';
-import { connectdb } from './db';
+import { connectionSQL } from './db';
 const cors = require('cors')
 
 const dotenv = require('dotenv');
@@ -22,9 +22,9 @@ app.use(express.json());
 
 app.use(cors());
 
-async function startServer() {
+export async function startServer() {
     try {
-        await connectdb();
+        await connectionSQL;
     } catch(error) {
         console.error('Unexpected error occurred', error);
     }

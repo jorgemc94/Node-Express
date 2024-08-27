@@ -1,18 +1,22 @@
 import bcrypt from 'bcryptjs';
-import { UserModel } from '../models/users';
 import { generateAccessToken } from '../utils/auth';
+import { User } from '../interfaces/User';
+import { connectionSQL } from '../db';
+import { RowDataPacket } from 'mysql2';
 
 export class LoginService {
-    static async authenticateUser(email: string, password: string): Promise<string> {
-        const user = await UserModel.findOne({ email: email });
+    static async authenticateUser(user: User): Promise<string> {
+        
+        const [rows] = await connectionSQL.query<RowDataPacket[]>('SELECT * FROM users WHERE email = ?', [user.email]);
 
-        if (!user) {
-            throw new Error('User not found');
+        if (rows.length === 0) {
+            throw new Error('Invalid credentials');
         }
 
-        const passwordMatch = await bcrypt.compare(password, user.password);
+        const userCheck = rows[0] as any; 
+        const match = await bcrypt.compare(user.password, userCheck.password);
 
-        if (passwordMatch) {
+        if (match) {
             const token = generateAccessToken(user.email);
             return token;
         } else {
