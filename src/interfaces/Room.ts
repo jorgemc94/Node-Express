@@ -10,7 +10,6 @@ export interface Room {
     price: number,
     discount: number,
     cancellation: string,
-    booking_id: number,
     amenities: string[],
     photosArray: string[],
 }

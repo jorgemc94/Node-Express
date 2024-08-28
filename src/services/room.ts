@@ -17,34 +17,16 @@ export class RoomService {
         if (rows.length === 0) {
             throw new Error('Room not found');
         }        
-        const roomData = rows[0] as any;
-        const [amenitiesRows] = await connectionSQL.query<RowDataPacket[]>('SELECT amenity FROM room_amenities WHERE room_id = ?', [id]);
-        const [photosRows] = await connectionSQL.query<RowDataPacket[]>('SELECT photo_url FROM room_photos WHERE room_id = ?', [id]);
-
-        const room: Room = {
-            _id: roomData._id,
-            roomNumber: roomData.roomNumber,
-            availability: roomData.availability,
-            roomType: roomData.roomType,
-            description: roomData.description,
-            offer: roomData.offer,
-            price: roomData.price,
-            discount: roomData.discount,
-            cancellation: roomData.cancellation,
-            booking_id: roomData.booking_id,
-            amenities: amenitiesRows.map(row => (row as any).amenity),
-            photosArray: photosRows.map(row => (row as any).photo_url)
-        };
-
-        return room;
+        
+        return rows[0] as Room;
     }
 
     // Añadir una nueva habitación
     static async addRoom(room: Room): Promise<Room> {
-        const { roomNumber, availability, roomType, description, offer, price, discount, cancellation, booking_id, amenities, photosArray } = room;
+        const { roomNumber, availability, roomType, description, offer, price, discount, cancellation, amenities, photosArray } = room;
         
-        const [result] = await connectionSQL.query('INSERT INTO rooms (roomNumber, availability, roomType, description, offer, price, discount, cancellation, booking_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-            [roomNumber, availability, roomType, description, offer, price, discount, cancellation, booking_id]);
+        const [result] = await connectionSQL.query('INSERT INTO rooms (roomNumber, availability, roomType, description, offer, price, discount, cancellation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+            [roomNumber, availability, roomType, description, offer, price, discount, cancellation]);
 
         const newId = (result as mysql.ResultSetHeader).insertId;
         
@@ -63,10 +45,10 @@ export class RoomService {
 
     // Actualizar una habitación existente
     static async updateRoom(id: number, room: Partial<Room>): Promise<Room> {
-        const { roomNumber, availability, roomType, description, offer, price, discount, cancellation, booking_id, amenities, photosArray } = room;
+        const { roomNumber, availability, roomType, description, offer, price, discount, cancellation, amenities, photosArray } = room;
         
-        const [result] = await connectionSQL.query('UPDATE rooms SET roomNumber = ?, availability = ?, roomType = ?, description = ?, offer = ?, price = ?, discount = ?, cancellation = ?, booking_id = ? WHERE _id = ?', 
-            [roomNumber, availability, roomType, description, offer, price, discount, cancellation, booking_id, id]);
+        const [result] = await connectionSQL.query('UPDATE rooms SET roomNumber = ?, availability = ?, roomType = ?, description = ?, offer = ?, price = ?, discount = ?, cancellation = ? WHERE _id = ?', 
+            [roomNumber, availability, roomType, description, offer, price, discount, cancellation, id]);
         
         if ((result as mysql.ResultSetHeader).affectedRows === 0) {
             throw new Error('Room not found');
