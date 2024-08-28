@@ -45,7 +45,7 @@ export class RoomService {
 
     // Actualizar una habitación existente
     static async updateRoom(id: number, room: Partial<Room>): Promise<Room> {
-        const { roomNumber, availability, roomType, description, offer, price, discount, cancellation, amenities, photosArray } = room;
+        const { roomNumber, availability, roomType, description, offer, price, discount, cancellation } = room;
         
         const [result] = await connectionSQL.query('UPDATE rooms SET roomNumber = ?, availability = ?, roomType = ?, description = ?, offer = ?, price = ?, discount = ?, cancellation = ? WHERE _id = ?', 
             [roomNumber, availability, roomType, description, offer, price, discount, cancellation, id]);
@@ -54,29 +54,11 @@ export class RoomService {
             throw new Error('Room not found');
         }
         
-        if (amenities) {
-            await connectionSQL.query('DELETE FROM room_amenities WHERE room_id = ?', [id]);
-            const amenitiesPromises = amenities.map(amenity => {
-                return connectionSQL.query('INSERT INTO room_amenities (room_id, amenity) VALUES (?, ?)', [id, amenity]);
-            });
-            await Promise.all(amenitiesPromises);
-        }
-        
-        if (photosArray) {
-            await connectionSQL.query('DELETE FROM room_photos WHERE room_id = ?', [id]);
-            const photosPromises = photosArray.map(photoUrl => {
-                return connectionSQL.query('INSERT INTO room_photos (room_id, photo_url) VALUES (?, ?)', [id, photoUrl]);
-            });
-            await Promise.all(photosPromises);
-        }
-
         return this.getRoomById(id);
     }
 
     // Eliminar una habitación
     static async deleteRoom(id: number): Promise<void> {
-        await connectionSQL.query('DELETE FROM room_amenities WHERE room_id = ?', [id]);
-        await connectionSQL.query('DELETE FROM room_photos WHERE room_id = ?', [id]);
         
         const [result] = await connectionSQL.query('DELETE FROM rooms WHERE _id = ?', [id]);
         if ((result as mysql.ResultSetHeader).affectedRows === 0) {

@@ -5,13 +5,13 @@ import mysql from 'mysql2/promise';
 
 export class ContactService {
     // Ver todos los contactos
-    static async getAllBookings(): Promise<Contact[]> {
+    static async getAllContacts(): Promise<Contact[]> {
         const [rows] = await connectionSQL.query<RowDataPacket[]>('SELECT * FROM contacts');
         return rows as Contact[];
     }
 
     // Ver un contacto por ID
-    static async getBooking(id: number): Promise<Contact> {
+    static async getContact(id: number): Promise<Contact> {
         const [rows] = await connectionSQL.query<RowDataPacket[]>('SELECT * FROM contacts WHERE _id = ?', [id]);
 
         if (rows.length === 0) {
@@ -32,7 +32,7 @@ export class ContactService {
     }
 
     // Actualizar un contacto existente
-    static async updateBooking(id: number, updatedContact: Partial<Contact>): Promise<Contact> {
+    static async updateContact(id: number, updatedContact: Partial<Contact>): Promise<Contact> {
         const { date, client, subject, comment, archived } = updatedContact;
         const [result] = await connectionSQL.query('UPDATE contacts SET date = ?, name = ?, email = ?, phone = ?, image = ?, subject = ?, comment = ?, archived = ? WHERE _id = ?', 
             [date, client?.name, client?.email, client?.phone, client?.image, subject, comment, archived, id]);
