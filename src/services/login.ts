@@ -7,7 +7,7 @@ import { RowDataPacket } from 'mysql2';
 export class LoginService {
     static async authenticateUser(user: User): Promise<string> {
         
-        const [rows] = await connectionSQL.query<RowDataPacket[]>('SELECT * FROM users WHERE email = ?', [user.email]);
+        const [rows] = await connectionSQL.query<RowDataPacket[]>('SELECT * FROM users WHERE name = ?', [user.name]);
 
         if (rows.length === 0) {
             throw new Error('Invalid credentials');
@@ -17,7 +17,7 @@ export class LoginService {
         const match = await bcrypt.compare(user.password, userCheck.password);
 
         if (match) {
-            const token = generateAccessToken(user.email);
+            const token = generateAccessToken(user.name);
             return token;
         } else {
             throw new Error('Invalid credentials');

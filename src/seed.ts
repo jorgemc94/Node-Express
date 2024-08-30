@@ -176,25 +176,6 @@ const run = async () => {
             CreatedUser.push(NewUser);
         }
 
-        const mypassword = '12345';
-        const mypasswordHashed = await bcrypt.hash(mypassword, 10)
-        const PersonalUser : User = {
-            name: 'Jorge Macias Cordobés',
-            email: 'jorgemc1294@gmail.com',
-            phone: faker.phone.number(),
-            photo: faker.image.url(),
-            position:{
-                name: 'Manager',
-                description: faker.lorem.sentence(),
-            },
-            date: faker.date.past().toISOString(),
-            status: faker.helpers.arrayElement(["valid", "invalid"]),
-            password:mypasswordHashed,
-        }
-
-        const MyUser = await UserService.addUser(PersonalUser)
-        CreatedUser.push(MyUser);
-
         const CreatedBooking = [];
         for (let i = 0; i < NumBookings; i++) {
             const orderDate: Date = faker.date.between({ from: '2024-01-01T00:00:00.000Z', to: '2024-12-31T00:00:00.000Z' });
