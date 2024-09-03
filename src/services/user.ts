@@ -48,6 +48,30 @@ export class UserService {
         };
     }
 
+     // Obtener un usuario por email
+     static async getUserByemail(email: string): Promise<User> {
+        const [rows] = await connectionSQL.query<RowDataPacket[]>('SELECT * FROM users WHERE email = ?', [email]);
+        if (rows.length === 0) {
+            throw new Error('User not found');
+        }
+        const row = rows[0] as any;
+        return {
+            _id: row._id,
+            name: row.name,
+            email: row.email,
+            phone: row.phone,
+            photo: row.photo,
+            position: {
+                name: row.position_name,
+                description: row.position_description
+            },
+            date: row.date,
+            status: row.status,
+            password: row.password
+        };
+    }
+
+
     // Añadir un nuevo usuario
     static async addUser(user: User): Promise<User> {
         const { name, email, phone, photo, position, date, status, password } = user;
@@ -77,6 +101,6 @@ export class UserService {
             throw new Error('User not found');
         }
 
-        return this.getUserById(id);  // Retornar el usuario actualizado
+        return this.getUserById(id);
     }
 }
