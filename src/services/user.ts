@@ -50,7 +50,7 @@ export class UserService {
 
      // Obtener un usuario por email
      static async getUserByemail(email: string): Promise<User> {
-        const [rows] = await connectionSQL.query<RowDataPacket[]>('SELECT * FROM users WHERE email = ?', [email]);
+        const [rows] = await connectionSQL.query<RowDataPacket[]>('SELECT * FROM users WHERE email = ?', email);
         if (rows.length === 0) {
             throw new Error('User not found');
         }

@@ -24,16 +24,12 @@ export class RoomService {
     // Añadir una nueva habitación
     static async addRoom(room: Room): Promise<Room> {
         const { roomNumber, status, roomType, description, offer, price, discount, cancellation, amenities, photosArray } = room;
-        
-        // Inserta la habitación en la tabla rooms
         const [result] = await connectionSQL.query(
             'INSERT INTO rooms (roomNumber, status, roomType, description, offer, price, discount, cancellation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
             [roomNumber, status, roomType, description, offer, price, discount, cancellation]
         );
     
         const newId = (result as mysql.ResultSetHeader).insertId;
-        
-        // Inserta las comodidades en la tabla amenities
         const amenitiesPromises = amenities.map(amenity => {
             return connectionSQL.query(
                 'INSERT INTO amenities (room_id, amenitie) VALUES (?, ?)', 
@@ -41,15 +37,12 @@ export class RoomService {
             );
         });
         
-        // Inserta las fotos en la tabla photosArray
         const photosPromises = photosArray.map(photoUrl => {
             return connectionSQL.query(
                 'INSERT INTO photosArray (room_id, photo_url) VALUES (?, ?)', 
                 [newId, photoUrl]
             );
         });
-        
-        // Ejecuta todas las promesas en paralelo
         await Promise.all([...amenitiesPromises, ...photosPromises]);
     
         return { ...room, _id: newId };
