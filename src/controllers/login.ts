@@ -19,7 +19,7 @@ loginController.post('/', async (req: Request, res: Response, next: NextFunction
     const checked = await checkUser(email, password)
 
     if (checked) {
-        const token = jwt.sign({email, password}, process.env.TOKEN_SECRET || 'secrectKey', {expiresIn: '1h'});
+        const token = jwt.sign({email, password}, process.env.TOKEN_SECRET || 'secrectKey');
         userChecked.password = password;
         res.json({Token: token, User: userChecked})
     } else {

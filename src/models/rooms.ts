@@ -4,7 +4,7 @@ import { Room } from "../interfaces/Room";
 const RoomSchema = new Schema<Room> ({
     roomNumber: {type:Number, required: true},
     availability: {type:String,enum: ['available', 'booked'], required: true},
-    roomType: {String},
+    roomType: {type: String},
     description: {type:String, required: true},
     offer: {type:Boolean, required: true},
     price: {type:Number, required: true},
