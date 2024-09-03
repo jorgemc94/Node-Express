@@ -51,8 +51,9 @@ export class UserService {
     // Añadir un nuevo usuario
     static async addUser(user: User): Promise<User> {
         const { name, email, phone, photo, position, date, status, password } = user;
+        const formattedDate = new Date(date).toISOString().split('T')[0];
         const [result] = await connectionSQL.query('INSERT INTO users (name, email, phone, photo, position_name, position_description, date, status, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-            [name, email, phone, photo, position?.name, position?.description, date, status, password]);
+            [name, email, phone, photo, position?.name, position?.description, formattedDate, status, password]);
         
         const newId = (result as mysql.ResultSetHeader).insertId;
         return { ...user, _id: newId };

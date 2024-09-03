@@ -24,9 +24,11 @@ export class ContactService {
     // Añadir un nuevo contacto
     static async addContact(contact: Contact): Promise<Contact> {
         const { date, client, subject, comment, archived } = contact;
-        const [result] = await connectionSQL.query('INSERT INTO contacts (date, name, email, phone, image, subject, comment, archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
-            [date, client.name, client.email, client.phone, client.image, subject, comment, archived]);
-        
+        const formattedDate = new Date(date).toISOString().split('T')[0];
+        const [result] = await connectionSQL.query(
+            'INSERT INTO contacts (date, client_name, client_email, client_phone, client_photo, subject, comment, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+            [formattedDate, client.name, client.email, client.phone, client.image, subject, comment, archived]
+        );
         const newId = (result as mysql.ResultSetHeader).insertId;
         return { ...contact, _id: newId };
     }

@@ -135,7 +135,7 @@ const run = async () => {
             }
             const DataRoom: Room = {
                 roomNumber: faker.number.int({ min: 1, max: 100 }),
-                availability: Math.random() < 0.5 ? 'available' : 'booked',
+                status: Math.random() < 0.5 ? 'available' : 'booked',
                 roomType: faker.lorem.words(2),
                 description: faker.lorem.sentence(),
                 offer: Math.random() < 0.5,
@@ -176,6 +176,25 @@ const run = async () => {
             CreatedUser.push(NewUser);
         }
 
+        const mypassword = '12345';
+        const mypasswordHashed = await bcrypt.hash(mypassword, 10)
+        const PersonalUser : User = {
+            name: 'Jorge Macias Cordobés',
+            email: 'jorgemc1294@gmail.com',
+            phone: faker.phone.number(),
+            photo: faker.image.url(),
+            position:{
+                name: 'Manager',
+                description: faker.lorem.sentence(),
+            },
+            date: faker.date.past().toISOString(),
+            status: faker.helpers.arrayElement(["valid", "invalid"]),
+            password:mypasswordHashed,
+        }
+    
+        const MyUser = await UserService.addUser(PersonalUser)
+        CreatedUser.push(MyUser);
+
         const CreatedBooking = [];
         for (let i = 0; i < NumBookings; i++) {
             const orderDate: Date = faker.date.between({ from: '2024-01-01T00:00:00.000Z', to: '2024-12-31T00:00:00.000Z' });
@@ -183,7 +202,7 @@ const run = async () => {
             checkInDate.setDate(orderDate.getDate() + faker.number.int({ min: 1, max: 10 }));
             const checkOutDate: Date = new Date(checkInDate);
             checkOutDate.setDate(checkInDate.getDate() + faker.number.int({ min: 2, max: 20 }));
-            const roomId: number = (CreatedRoom[Math.floor(Math.random() * 50)] as { _id: number })._id;
+            const room_id: number = (CreatedRoom[Math.floor(Math.random() * 50)] as { _id: number })._id;
 
             const DataBooking: Booking = {
                 fullName: `Booking ${faker.number.int({min: 0, max: 999})}`,
@@ -191,7 +210,7 @@ const run = async () => {
                 checkIn: checkInDate.toISOString().split('T')[0],
                 checkOut: checkOutDate.toISOString().split('T')[0],
                 specialRequest: faker.lorem.sentence(),
-                roomId: roomId,
+                room_id: room_id,
                 status: faker.helpers.arrayElement(["In progress", "Check In", "Check Out"]),
             }
             

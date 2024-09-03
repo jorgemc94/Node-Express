@@ -3,7 +3,7 @@ export type availabilityType = "available" | "booked";
 export interface Room {
     _id?: number;
     roomNumber: number,
-    availability: availabilityType,
+    status: availabilityType,
     roomType: string,
     description: string,
     offer: boolean,

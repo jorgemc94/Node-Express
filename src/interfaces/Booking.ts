@@ -8,6 +8,6 @@ export interface Booking {
     checkIn: string,
     checkOut: string,
     specialRequest: string,
-    roomId: number,
+    room_id: number,
     status: statusType,
 };

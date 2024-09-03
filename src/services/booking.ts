@@ -25,13 +25,20 @@ export class BookingService {
 
     // Añadir un nuevo booking
     static async addBooking(booking: Booking): Promise<Booking> {
-        const { fullName, bookDate, checkIn, checkOut, specialRequest, roomId, status } = booking;
-        const [result] = await connectionSQL.query('INSERT INTO bookings (fullName, bookDate, checkIn, checkOut, specialRequest, roomId, status) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-            [fullName, bookDate, checkIn, checkOut, specialRequest, roomId, status]);
-        
+        const { fullName, bookDate, checkIn, checkOut, specialRequest, room_id, status } = booking;
+        const formattedBookDate = new Date(bookDate).toISOString().split('T')[0];
+        const formattedCheckIn = new Date(checkIn).toISOString().split('T')[0];
+        const formattedCheckOut = new Date(checkOut).toISOString().split('T')[0];
+    
+        const [result] = await connectionSQL.query(
+            'INSERT INTO bookings (fullName, bookDate, checkIn, checkOut, specialRequest, room_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+            [fullName, formattedBookDate, formattedCheckIn, formattedCheckOut, specialRequest, room_id, status]
+        );
+    
         const newId = (result as mysql.ResultSetHeader).insertId;
         return { ...booking, _id: newId };
     }
+    
 
     // Eliminar un booking por ID
     static async deleteBooking(id: number): Promise<void> {
@@ -44,9 +51,9 @@ export class BookingService {
 
     // Actualizar un booking por ID
     static async updateBooking(id: number, updatedBooking: Partial<Booking>): Promise<Booking> {
-        const { fullName, bookDate, checkIn, checkOut, specialRequest, roomId, status } = updatedBooking;
-        const [result] = await connectionSQL.query('UPDATE bookings SET fullName = ?, bookDate = ?, checkIn = ?, checkOut = ?, specialRequest = ?, roomId = ?, status = ? WHERE _id = ?', 
-            [fullName, bookDate, checkIn, checkOut, specialRequest, roomId, status, id]);
+        const { fullName, bookDate, checkIn, checkOut, specialRequest, room_id, status } = updatedBooking;
+        const [result] = await connectionSQL.query('UPDATE bookings SET fullName = ?, bookDate = ?, checkIn = ?, checkOut = ?, specialRequest = ?, room_id = ?, status = ? WHERE _id = ?', 
+            [fullName, bookDate, checkIn, checkOut, specialRequest, room_id, status, id]);
         
         if ((result as mysql.ResultSetHeader).affectedRows === 0) {
             throw new Error('Booking not found');
