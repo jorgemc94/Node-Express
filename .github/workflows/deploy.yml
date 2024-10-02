@@ -3,7 +3,7 @@ name: Deploy Miranda Backend
 on:
   push:
     branches:
-      - main
+      - main  # O la rama que utilices para el despliegue
 
 jobs:
   deploy:
@@ -22,14 +22,19 @@ jobs:
         run: npm install -g serverless
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
+
+      - name: Build Vite App
+        run: npm run build
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-3
+          aws-region: ${{ secrets.AWS_REGION }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          SOURCE_DIR: 'dist'
 
       - name: Set up environment variables
         run: |
