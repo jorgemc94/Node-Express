@@ -21,6 +21,6 @@ export class UserService extends ServicesGeneric<User> {
             password: hashedPassword
         };
 
-        return this.post(userWithHashedPassword);
+        return this.add(userWithHashedPassword);
     }
 }

@@ -4,7 +4,7 @@ export const ControllersGeneric = (Model: any) => {
     const getAll = async (_req: Request, res: Response, next: NextFunction) => {
         try {
             const data = await Model.getAll();
-            res.json({ data });
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -12,19 +12,20 @@ export const ControllersGeneric = (Model: any) => {
 
     const getbyId = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const id = parseInt(req.params.id);
-            const data = await Model.getId(id);
-            res.json({ data });
+            const id = req.params.id;
+            const data = await Model.getbyId(id);
+            res.json(data);
         } catch (error) {
             next(error);
         }
     };
 
-    const post = async (req: Request, res: Response, next: NextFunction) => {
+    const add = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const New = req.body;
-            const Create = await Model.post(New);
-            res.json({ data: Create });
+            const newItem = req.body;
+            console.log(req.body)
+            const createdItem = await Model.add(newItem);
+            res.json(createdItem);
         } catch (error) {
             next(error);
         }
@@ -32,19 +33,20 @@ export const ControllersGeneric = (Model: any) => {
 
     const deleteID = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const id = parseInt(req.params.id);
-            const remove = await Model.deleteID(id);
-            res.json({ data: remove });
+            const id = req.params.id;
+            const removedItem = await Model.deleteID(id);
+            res.json(removedItem);
         } catch (error) {
             next(error);
         }
     };
 
-    const put = async (req: Request, res: Response, next: NextFunction) => {
+    const update = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const modify = req.body;
-            const update = await Model.put(modify);
-            res.json({ data: update });
+            const id = req.params.id;
+            const updatedData = req.body;
+            const result = await Model.update({ _id: id, ...updatedData });
+            res.json(result);
         } catch (error) {
             next(error);
         }
@@ -53,8 +55,8 @@ export const ControllersGeneric = (Model: any) => {
     return {
         getAll,
         getbyId,
-        post,
+        add,
         deleteID,
-        put
+        update
     };
 };
